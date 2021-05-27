@@ -10,12 +10,12 @@ class ListAllUsersUseCase {
 
   private isAdmin(user_id: string): boolean {
     const user = this.usersRepository.findById(user_id);
-    return user.admin;
+    return user ? user.admin : false;
   }
 
   execute({ user_id }: IRequest): User[] {
     if (!this.isAdmin(user_id)) {
-      throw Error("é necessário ser administrador");
+      throw Error("You need to be an administrator to list all users.");
     }
     return this.usersRepository.list();
   }
